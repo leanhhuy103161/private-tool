@@ -3,7 +3,7 @@ import logger from 'redux-logger'
 
 import rootReducer from './reducers'
 
-function config(initialState = {}) {
+function config() {
   const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
     reducer: rootReducer,
