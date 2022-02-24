@@ -8,7 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 npm install // or yarn
 cp .env.example .env // can create a new file .env then copy from .env.example file as well
 npm start
-npm start:server // running in another tab
+npm run start:server // running in another tab
 ```
 
 ## Available Scripts
