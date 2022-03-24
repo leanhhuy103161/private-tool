@@ -10,7 +10,12 @@ cp .env.example .env // can create a new file .env then copy from .env.example f
 npm start
 npm run start:server // running in another tab
 ```
-
+open  http://localhost:3000
+login certificate 
+```
+username: admin@admin.com
+password: 123
+```
 ## Available Scripts
 
 In the project directory, you can run:
