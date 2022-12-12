@@ -5,11 +5,11 @@ import { ReactComponent as Twitter } from "../../../assets/service-logo/twitter.
 import { ReactComponent as Linkedin } from "../../../assets/service-logo/linkedin.svg";
 import { ReactComponent as Whatsapp } from "../../../assets/service-logo/whatsapp.svg";
 import { ReactComponent as Zalo } from "../../../assets/service-logo/zalo.svg";
+import { services } from "../shared/constant";
 
 export const ServiceList = () => {
   const onDragStart = (event, nodeType) => {
-    console.log(nodeType);
-    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.setData("application/reactflow",JSON.stringify(nodeType));
     event.dataTransfer.effectAllowed = "move";
   };
 
@@ -20,7 +20,7 @@ export const ServiceList = () => {
           onDragStart={(event) => onDragStart(event, {
             name: "Messenger",
             number: "17",
-            icon: Messenger,
+            icon: services.messenger,
           })}
           draggable
           className="bg-white cursor-pointer p-7 flex items-center rounded-2xl w-full"
@@ -38,7 +38,7 @@ export const ServiceList = () => {
           onDragStart={(event) => onDragStart(event, {
             name: "Gmail",
             number: "17",
-            icon: Gmail,
+            icon: services.gmail,
           })}
           draggable
           className="bg-white cursor-pointer p-7 flex items-center rounded-2xl w-full"
@@ -56,7 +56,7 @@ export const ServiceList = () => {
           onDragStart={(event) => onDragStart(event, {
             name: "Linkedin",
             number: "17",
-            icon: Linkedin,
+            icon: services.linkedin,
           })}
           draggable
           className="bg-white cursor-pointer p-7 flex items-center rounded-2xl w-full"
@@ -76,7 +76,7 @@ export const ServiceList = () => {
           onDragStart={(event) => onDragStart(event, {
             name: "Zalo",
             number: "17",
-            icon: Zalo,
+            icon: services.zalo,
           })}
           draggable
           className="bg-white cursor-pointer p-7 flex items-center rounded-2xl w-full"
@@ -94,7 +94,7 @@ export const ServiceList = () => {
           onDragStart={(event) => onDragStart(event,{
             name: "Twitter",
             number: "17",
-            icon: Twitter,
+            icon: services.twitter,
           })}
           draggable
           className="bg-white cursor-pointer p-7 flex items-center rounded-2xl w-full"
@@ -113,7 +113,7 @@ export const ServiceList = () => {
             onDragStart(event, {
               name: "Whatsapp",
               number: "17",
-              icon: Whatsapp,
+              icon: services.whatsapp,
             })
           }
           draggable

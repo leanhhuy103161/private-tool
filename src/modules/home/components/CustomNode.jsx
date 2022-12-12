@@ -2,12 +2,12 @@
 import { checkPropTypes } from 'prop-types';
 import React from 'react';
 import { Handle, Position } from 'reactflow';
+import { ServiceLogoIcon } from '../shared/constant';
 
 
 
 function CustomNode({ data }) {
-
-  const Icon = data.icon
+  const Icon = ServiceLogoIcon[data.icon];
   return (
     <div className="px-4 py-2 shadow-md rounded-md bg-white border-2 border-stone-400">
       <div className="bg-white flex items-center rounded-2xl w-full">

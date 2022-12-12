@@ -12,12 +12,13 @@ import { ReactComponent as Zalo } from "../../../assets/service-logo/zalo.svg";
 import "reactflow/dist/base.css";
 
 import CustomNode from "./CustomNode";
+import { services } from "../shared/constant";
 
 const initNodes = [
   {
     id: '1',
     type: 'messageService',
-    data: { name: 'Zalo', number: 17, icon: Zalo},
+    data: { name: 'Zalo', number: 17, icon: services.zalo},
     position: { x: 0, y: 50 },
   }
 ];
