@@ -1,35 +1,36 @@
 //import libs
-import React from 'react'
-import PropTypes from 'prop-types'
-import Header from '@modules/app/components/header'
-import Footer from '@modules/app/components/footer'
+import React from "react";
+import PropTypes from "prop-types";
+import Header from "@modules/app/components/header";
+import Footer from "@modules/app/components/footer";
+import Sidebar from "../modules/app/components/sidebar";
 
 // import components
 
 const containerStyle = {
-  paddingTop: '3.5rem',
-}
+};
 
-const displayName = 'Private Layout'
+const displayName = "Private Layout";
 const propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
 
 function PrivateLayout({ children }) {
   return (
-    <>
-      <Header />
-      <div style={containerStyle}>
-        <main>
-          {children}
-        </main>
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-1">
+        {/* <Header /> */}
+        <div style={containerStyle}>
+          <main>{children}</main>
+        </div>
+        {/* <Footer /> */}
       </div>
-      <Footer />
-    </>
-  )
+    </div>
+  );
 }
 
-PrivateLayout.dispatch = displayName
-PrivateLayout.propTypes = propTypes
+PrivateLayout.dispatch = displayName;
+PrivateLayout.propTypes = propTypes;
 
-export default PrivateLayout
+export default PrivateLayout;

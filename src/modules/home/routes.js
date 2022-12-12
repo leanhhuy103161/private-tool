@@ -3,12 +3,13 @@ import { lazy } from 'react'
 
 const routers = [
   {
-    path: '/',
+    path: '/private-demo',
     exact: true,
-    component: lazy(() => import('./pages/home')),
+    auth: true,
+    component: lazy(() => import('./pages/privateDemo')),
   },
   {
-    path: '/private-demo',
+    path: '/',
     exact: true,
     auth: true,
     component: lazy(() => import('./pages/privateDemo')),

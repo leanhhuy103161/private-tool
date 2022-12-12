@@ -40,6 +40,7 @@ module.exports = {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
       rose: colors.rose,
+      primary: '#191C52',
     }),
     columns: {
       auto: 'auto',
@@ -913,6 +914,7 @@ module.exports = {
       min: 'min-content',
       max: 'max-content',
       fit: 'fit-content',
+      loginForm: '620px',
     }),
     willChange: {
       auto: 'auto',
@@ -948,5 +950,5 @@ module.exports = {
     'active',
     'disabled',
   ],
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 }
