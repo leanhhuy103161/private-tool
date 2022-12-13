@@ -7,12 +7,19 @@ import ReactFlow, {
   MiniMap,
   Controls,
 } from "reactflow";
-import { ReactComponent as Zalo } from "../../../assets/service-logo/zalo.svg";
+
+import CustomConnectionLine from './CustomConnectionLine';
+
 
 import "reactflow/dist/base.css";
 
 import CustomNode from "./CustomNode";
 import { services } from "../shared/constant";
+
+const connectionLineStyle = {
+  strokeWidth: 3,
+  stroke: 'black',
+};
 
 const initNodes = [
   {
@@ -84,6 +91,8 @@ const FlowBoard = ({reactFlowWrapper}) => {
       onDragOver={onDragOver}
       fitView
       nodeTypes={nodeTypes}
+      connectionLineComponent={CustomConnectionLine}
+      connectionLineStyle={connectionLineStyle}
     >
       {/* <MiniMap /> */}
       <Controls />
