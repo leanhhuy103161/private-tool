@@ -6,6 +6,7 @@ import ReactFlow, {
   addEdge,
   MiniMap,
   Controls,
+  MarkerType,
 } from "reactflow";
 
 import CustomConnectionLine from './CustomConnectionLine';
@@ -14,6 +15,7 @@ import CustomConnectionLine from './CustomConnectionLine';
 import "reactflow/dist/base.css";
 
 import CustomNode from "./CustomNode";
+import CustomEdge from "./CustomEdge";
 import { services } from "../shared/constant";
 
 const connectionLineStyle = {
@@ -33,7 +35,18 @@ const initNodes = [
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
+const edgeTypes = {
+  floating: CustomEdge,
+};
 
+const defaultEdgeOptions = {
+  style: { strokeWidth: 3, stroke: 'black' },
+  type: 'floating',
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: 'black',
+  },
+};
 
 const FlowBoard = ({reactFlowWrapper}) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initNodes);
@@ -90,9 +103,11 @@ const FlowBoard = ({reactFlowWrapper}) => {
       onDrop={onDrop}
       onDragOver={onDragOver}
       fitView
+      edgeTypes={edgeTypes}
       nodeTypes={nodeTypes}
       connectionLineComponent={CustomConnectionLine}
       connectionLineStyle={connectionLineStyle}
+      defaultEdgeOptions={defaultEdgeOptions}
     >
       {/* <MiniMap /> */}
       <Controls />
