@@ -3,7 +3,7 @@ import { services } from "../../shared/constant";
 // Slice
 
 // const initialNotification = [];
-const initNodes = [
+const initialNodes = [
   {
     id: "1",
     type: "messageService",
@@ -12,11 +12,20 @@ const initNodes = [
   },
 ];
 
+const initialEdges = [
+  {
+    id: 'edge-1-2',
+    source: 'ewb-1',
+    target: 'ewb-2',
+    type: 'buttonedge',
+  },
+];
+
 const flowReducer = createSlice({
   name: "flow",
   initialState: {
-    initNodes,
-    initEdges: [],
+    initNodes: initialNodes,
+    initEdges: initialEdges,
   },
   reducers: {
     pushNotiSuccess: (state, action) => {

@@ -9,8 +9,7 @@ import ReactFlow, {
   MarkerType,
 } from "reactflow";
 
-import CustomConnectionLine from './CustomConnectionLine';
-
+import CustomConnectionLine from "./CustomConnectionLine";
 
 import "reactflow/dist/base.css";
 
@@ -20,9 +19,8 @@ import { useSelector } from "react-redux";
 
 const connectionLineStyle = {
   strokeWidth: 3,
-  stroke: 'black',
+  stroke: "black",
 };
-
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -32,26 +30,30 @@ const edgeTypes = {
 };
 
 const defaultEdgeOptions = {
-  style: { strokeWidth: 3, stroke: 'black' },
-  type: 'floating',
+  style: { strokeWidth: 3, stroke: "black" },
+  type: "floating",
   markerEnd: {
     type: MarkerType.ArrowClosed,
-    color: 'black',
+    color: "black",
   },
 };
 
-const FlowBoard = ({reactFlowWrapper}) => {
+const FlowBoard = ({ reactFlowWrapper }) => {
   const initNodes = useSelector((state) => state.flow.initNodes);
   const [nodes, setNodes, onNodesChange] = useNodesState(initNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const nodeTypes = useMemo(() => ({ messageService: CustomNode }), []);
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+  const onConnect = useCallback(
+    (params) =>
+      setEdges((eds) => addEdge({ ...params, data: { setEdges } }, eds)),
+    []
+  );
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = "move";
   }, []);
 
   const onDrop = useCallback(
@@ -59,11 +61,12 @@ const FlowBoard = ({reactFlowWrapper}) => {
       event.preventDefault();
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-      const service = JSON.parse(event.dataTransfer.getData('application/reactflow'));
+      const service = JSON.parse(
+        event.dataTransfer.getData("application/reactflow")
+      );
 
-      
       // check if the dropped element is valid
-      if (typeof service === 'undefined' || !service) {
+      if (typeof service === "undefined" || !service) {
         return;
       }
 
@@ -73,7 +76,7 @@ const FlowBoard = ({reactFlowWrapper}) => {
       });
       const newNode = {
         id: getId(),
-        type: 'messageService',
+        type: "messageService",
         position,
         data: service,
       };
