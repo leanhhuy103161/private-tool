@@ -16,21 +16,13 @@ import "reactflow/dist/base.css";
 
 import CustomNode from "./CustomNode";
 import CustomEdge from "./CustomEdge";
-import { services } from "../shared/constant";
+import { useSelector } from "react-redux";
 
 const connectionLineStyle = {
   strokeWidth: 3,
   stroke: 'black',
 };
 
-const initNodes = [
-  {
-    id: '1',
-    type: 'messageService',
-    data: { name: 'Zalo', number: 17, icon: services.zalo},
-    position: { x: 0, y: 50 },
-  }
-];
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -49,6 +41,7 @@ const defaultEdgeOptions = {
 };
 
 const FlowBoard = ({reactFlowWrapper}) => {
+  const initNodes = useSelector((state) => state.flow.initNodes);
   const [nodes, setNodes, onNodesChange] = useNodesState(initNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);

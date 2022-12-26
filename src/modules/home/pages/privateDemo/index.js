@@ -4,7 +4,7 @@ import FlowBoard from "../../components/FlowBoard";
 import { ReactFlowProvider } from "reactflow";
 import { ServiceList } from "../../components/ServiceList";
 import { useRef } from "react";
-import { ListUser } from "../../components/ListUser";
+import "./privateDemo.scss"
 
 function PrivateDemo() {
   const reactFlowWrapper = useRef(null);
@@ -30,13 +30,10 @@ function PrivateDemo() {
           </div>
         </div>
       </section>
-      <ListUser />
-
-      
       <ReactFlowProvider>
       <div className="reactflow-wrapper flex" ref={reactFlowWrapper}>
         <ServiceList />
-        <section className="mt-7 shadow-md rounded h-auto flex flex-1  justify-between gap-7">
+        <section className="mt-7 shadow-md rounded h-auto flex flex-1 justify-between gap-7">
           <div className="w-full relative h-full bg-white rounded-lg p-6">
             <div className="mb-5 h-full">
               <h3 className="font-semibold text-xl">Schedule board</h3>
