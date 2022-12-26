@@ -46,7 +46,10 @@ function CustomEdge({
   });
 
   const onEdgeButtonClick = (evt, id) => {
+    console.log(id);
+    console.log(data);
     evt.stopPropagation();
+
     data?.setEdges((edges) => edges.filter((ed) => ed.id !== id));
   };
 
