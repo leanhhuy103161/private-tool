@@ -1,10 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import ReactFlow, {
-  useNodesState,
-  useEdgesState,
-  addEdge,
-  MiniMap,
   Controls,
   MarkerType,
 } from "reactflow";
@@ -15,7 +11,8 @@ import "reactflow/dist/base.css";
 
 import CustomNode from "./CustomNode";
 import CustomEdge from "./CustomEdge";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { preAddNode, preConnect, preEdgesChange, preNodesChange } from "../stores/slices/flow";
 
 const connectionLineStyle = {
   strokeWidth: 3,
@@ -40,16 +37,23 @@ const defaultEdgeOptions = {
 
 const FlowBoard = ({ reactFlowWrapper }) => {
   const initNodes = useSelector((state) => state.flow.initNodes);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const initEdges = useSelector((state) => state.flow.initEdges);
+
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const nodeTypes = useMemo(() => ({ messageService: CustomNode }), []);
+  const dispatch = useDispatch();
 
-  const onConnect = useCallback(
-    (params) =>
-      setEdges((eds) => addEdge({ ...params, data: { setEdges } }, eds)),
-    []
-  );
+  const nodeChanges = (data) => {
+    dispatch(preNodesChange(data))
+  };
+
+  const EdgeChanges = (data) => {
+    dispatch(preEdgesChange(data))
+  };
+
+  const connect = (data) => {
+    dispatch(preConnect(data))
+  };
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -78,23 +82,22 @@ const FlowBoard = ({ reactFlowWrapper }) => {
         id: getId(),
         type: "messageService",
         position,
-        data: service,
+        data: {...service, id: getId()},
       };
 
-      console.log(newNode);
-
-      setNodes((nds) => nds.concat(newNode));
+      // setNodes((nds) => nds.concat(newNode));
+      dispatch(preAddNode(newNode))
     },
     [reactFlowInstance]
   );
 
   return (
     <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
+      nodes={initNodes}
+      edges={initEdges}
+      onNodesChange={nodeChanges}
+      onEdgesChange={EdgeChanges}
+      onConnect={connect}
       onInit={setReactFlowInstance}
       onDrop={onDrop}
       onDragOver={onDragOver}

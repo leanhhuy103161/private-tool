@@ -30,26 +30,26 @@
 }
 
 div.sourceHandle {
-  width: 100%;
-  height: 100%;
+  height: 20px;
+  width: 20px;
   position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 0;
+  border-radius: 4px;
+  background: blue;
   transform: none;
   border: none;
-  opacity: 0;
+  right: -13px;
+
+  opacity: 1;
 }
 
 div.targetHandle {
-  width: 100%;
-  height: 100%;
-  /* background: blue; */
+  height: 20px;
+  width: 20px;
+  background: blue;
   position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 0;
+  left: -13px;
+  border-radius: 4px;
   transform: none;
   border: none;
-  opacity: 0;
+  opacity: 1;
 }
