@@ -1,24 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { services } from "../../shared/constant";
-// Slice
+import {
+  addEdge,
+  applyNodeChanges,
+  applyEdgeChanges,
+} from 'reactflow';
 
-// const initialNotification = [];
+
 const initialNodes = [
   {
     id: "1",
     type: "messageService",
-    data: { name: "Zalo", number: 17, icon: services.zalo },
+    data: { name: "Zalo", number: 17, icon: services.zalo, id: "1" },
     position: { x: 0, y: 50 },
-  },
+  }
 ];
 
 const initialEdges = [
-  {
-    id: 'edge-1-2',
-    source: 'ewb-1',
-    target: 'ewb-2',
-    type: 'buttonedge',
-  },
 ];
 
 const flowReducer = createSlice({
@@ -28,9 +26,26 @@ const flowReducer = createSlice({
     initEdges: initialEdges,
   },
   reducers: {
-    pushNotiSuccess: (state, action) => {
-      state.listNoti.unshift(action.payload);
-      state.totalNoti++;
+    onAddNode: (state, action) => {
+      state.initNodes = state.initNodes.concat(action.payload)
+    },
+    onNodesChange: (state, action) => {
+      state.initNodes = applyNodeChanges(action.payload, state.initNodes)
+    },
+    onEdgesChange: (state, action) => {
+      state.initEdges = applyEdgeChanges(action.payload, state.initEdges)
+    },
+    onConnect: (state, action) => {
+      state.initEdges = addEdge(action.payload, state.initEdges)
+    },
+    onRemoveEdge: (state, action) => {
+      console.log(state.initEdges);
+      state.initEdges = state.initEdges.filter((ed) => ed.id !== action.payload)
+    },
+    onRemoveNode: (state, action) => {
+      console.log(action.payload);
+      state.initNodes = state.initNodes.filter((ed) => ed.id !== action.payload)
+      state.initEdges = state.initEdges.filter((ed) => ed.target !== action.payload && ed.source !== action.payload)
     }
   },
 });
@@ -39,11 +54,52 @@ export default flowReducer.reducer;
 
 // Actions
 
-const { pushNotiSuccess } = flowReducer.actions;
+const { onNodesChange, onEdgesChange, onConnect, onAddNode, onRemoveEdge, onRemoveNode } = flowReducer.actions;
 
-export const pushNofi = (action) => async (dispatch) => {
+export const preNodesChange = (action) => async (dispatch) => {
   try {
-    dispatch(pushNotiSuccess(action));
+    dispatch(onNodesChange(action));
+  } catch (e) {
+    return console.error(e.message);
+  }
+};
+
+export const preEdgesChange = (action) => async (dispatch) => {
+  try {
+    dispatch(onEdgesChange(action));
+  } catch (e) {
+    return console.error(e.message);
+  }
+};
+
+export const preConnect = (action) => async (dispatch) => {
+  try {
+    if (action.source !== action.target)
+      dispatch(onConnect(action));
+  } catch (e) {
+    return console.error(e.message);
+  }
+};
+
+export const preAddNode = (action) => async (dispatch) => {
+  try {
+    dispatch(onAddNode(action));
+  } catch (e) {
+    return console.error(e.message);
+  }
+};
+
+export const preRemoveEdge = (action) => async (dispatch) => {
+  try {
+    dispatch(onRemoveEdge(action));
+  } catch (e) {
+    return console.error(e.message);
+  }
+};
+
+export const preRemoveNode = (action) => async (dispatch) => {
+  try {
+    dispatch(onRemoveNode(action));
   } catch (e) {
     return console.error(e.message);
   }

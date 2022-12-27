@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { checkPropTypes } from "prop-types";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Handle, Position, useStore } from "reactflow";
 import { ServiceLogoIcon } from "../shared/constant";
+import { preRemoveNode } from "../stores/slices/flow";
 import "./styles/CustomNode.css";
 
 const connectionNodeIdSelector = (state) => state.connectionNodeId;
@@ -10,10 +12,16 @@ const connectionNodeIdSelector = (state) => state.connectionNodeId;
 function CustomNode({ data }) {
   const connectionNodeId = useStore(connectionNodeIdSelector);
   const isTarget = connectionNodeId && connectionNodeId !== data.id;
+  const dispatch = useDispatch()
 
   const targetHandleStyle = { zIndex: isTarget ? 3 : 1 };
 
   const Icon = ServiceLogoIcon[data.icon];
+
+  const handleRemoveNode = () => {
+    dispatch(preRemoveNode(data.id))
+  }
+
   return (
     <div className="customNode">
       <div
@@ -23,6 +31,7 @@ function CustomNode({ data }) {
         }}
         className="customNodeBody"
       >
+        <button onClick={handleRemoveNode}>x</button>
         <div className="flex">
           <Icon />
         </div>
@@ -40,7 +49,7 @@ function CustomNode({ data }) {
           type="source"
           style={{ zIndex: 2 }}
           position={Position.Right}
-          className="targetHandle"
+          className="sourceHandle"
         />
       </div>
     </div>

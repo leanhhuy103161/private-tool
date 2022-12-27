@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { useStore, getStraightPath } from "reactflow";
 import { getEdgeParams } from "../../../utils";
+import { preRemoveEdge } from "../stores/slices/flow";
 import "./styles/CustomEdge.scss"
 
 const foreignObjectSize = 40;
@@ -13,8 +15,7 @@ function CustomEdge({
   markerEnd,
   style,
   sourcePosition,
-  targetPosition,
-  data
+  targetPosition
 }) {
   const sourceNode = useStore(
     useCallback((store) => store.nodeInternals.get(source), [source])
@@ -22,6 +23,7 @@ function CustomEdge({
   const targetNode = useStore(
     useCallback((store) => store.nodeInternals.get(target), [target])
   );
+  const dispatch = useDispatch();
 
   if (!sourceNode || !targetNode) {
     return null;
@@ -29,7 +31,7 @@ function CustomEdge({
 
   const onEdgeClick = (evt, id) => {
     evt.stopPropagation();
-    data?.setEdges((edges) => edges.filter((ed) => ed.id !== id));
+    dispatch(preRemoveEdge(id))
   };
 
   const { sx, sy, tx, ty } = getEdgeParams(sourceNode, targetNode);
