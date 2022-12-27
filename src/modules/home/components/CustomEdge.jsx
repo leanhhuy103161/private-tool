@@ -45,14 +45,6 @@ function CustomEdge({
     targetPosition,
   });
 
-  const onEdgeButtonClick = (evt, id) => {
-    console.log(id);
-    console.log(data);
-    evt.stopPropagation();
-
-    data?.setEdges((edges) => edges.filter((ed) => ed.id !== id));
-  };
-
   return (
     <>
       <path
@@ -73,7 +65,7 @@ function CustomEdge({
         <div>
           <button
             className="edgebutton w-3 h-3 rounded-full bg-gray-100"
-            onClick={(event) => onEdgeButtonClick(event, id)}
+            onClick={(event) => onEdgeClick(event, id)}
           >
             ×
           </button>

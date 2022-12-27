@@ -78,11 +78,14 @@ const FlowBoard = ({ reactFlowWrapper }) => {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
+
+      let id = getId();
+
       const newNode = {
-        id: getId(),
+        id: id,
         type: "messageService",
         position,
-        data: {...service, id: getId()},
+        data: {...service, id: id},
       };
 
       // setNodes((nds) => nds.concat(newNode));

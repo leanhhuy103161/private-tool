@@ -1,11 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { services } from "../../shared/constant";
-import {
-  addEdge,
-  applyNodeChanges,
-  applyEdgeChanges,
-} from 'reactflow';
-
+import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
 const initialNodes = [
   {
@@ -13,11 +8,10 @@ const initialNodes = [
     type: "messageService",
     data: { name: "Zalo", number: 17, icon: services.zalo, id: "1" },
     position: { x: 0, y: 50 },
-  }
+  },
 ];
 
-const initialEdges = [
-];
+const initialEdges = [];
 
 const flowReducer = createSlice({
   name: "flow",
@@ -27,26 +21,31 @@ const flowReducer = createSlice({
   },
   reducers: {
     onAddNode: (state, action) => {
-      state.initNodes = state.initNodes.concat(action.payload)
+      state.initNodes = state.initNodes.concat(action.payload);
     },
     onNodesChange: (state, action) => {
-      state.initNodes = applyNodeChanges(action.payload, state.initNodes)
+      state.initNodes = applyNodeChanges(action.payload, state.initNodes);
     },
     onEdgesChange: (state, action) => {
-      state.initEdges = applyEdgeChanges(action.payload, state.initEdges)
+      state.initEdges = applyEdgeChanges(action.payload, state.initEdges);
     },
     onConnect: (state, action) => {
-      state.initEdges = addEdge(action.payload, state.initEdges)
+      state.initEdges = addEdge(action.payload, state.initEdges);
     },
     onRemoveEdge: (state, action) => {
       console.log(state.initEdges);
-      state.initEdges = state.initEdges.filter((ed) => ed.id !== action.payload)
+      state.initEdges = state.initEdges.filter(
+        (ed) => ed.id !== action.payload
+      );
     },
     onRemoveNode: (state, action) => {
-      console.log(action.payload);
-      state.initNodes = state.initNodes.filter((ed) => ed.id !== action.payload)
-      state.initEdges = state.initEdges.filter((ed) => ed.target !== action.payload && ed.source !== action.payload)
-    }
+      state.initNodes = state.initNodes.filter(
+        (ed) => ed.id !== action.payload
+      );
+      state.initEdges = state.initEdges.filter(
+        (ed) => ed.target !== action.payload && ed.source !== action.payload
+      );
+    },
   },
 });
 
@@ -54,7 +53,14 @@ export default flowReducer.reducer;
 
 // Actions
 
-const { onNodesChange, onEdgesChange, onConnect, onAddNode, onRemoveEdge, onRemoveNode } = flowReducer.actions;
+const {
+  onNodesChange,
+  onEdgesChange,
+  onConnect,
+  onAddNode,
+  onRemoveEdge,
+  onRemoveNode,
+} = flowReducer.actions;
 
 export const preNodesChange = (action) => async (dispatch) => {
   try {
@@ -74,8 +80,7 @@ export const preEdgesChange = (action) => async (dispatch) => {
 
 export const preConnect = (action) => async (dispatch) => {
   try {
-    if (action.source !== action.target)
-      dispatch(onConnect(action));
+    if (action.source !== action.target) dispatch(onConnect(action));
   } catch (e) {
     return console.error(e.message);
   }
