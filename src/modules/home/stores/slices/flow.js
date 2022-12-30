@@ -9,9 +9,32 @@ const initialNodes = [
     data: { name: "Zalo", number: 17, icon: services.zalo, id: "1" },
     position: { x: 0, y: 50 },
   },
+  {
+    id: "2",
+    type: "messageService",
+    data: { name: "Sms", number: 17, icon: services.sms, id: "2" },
+    position: { x: 310, y: 350 },
+  },
 ];
 
-const initialEdges = [];
+const initialEdges = [
+  {
+    style: {
+      strokeWidth: 3,
+      stroke: "black",
+    },
+    type: "floating",
+    markerEnd: {
+      type: "arrowclosed",
+      color: "black",
+    },
+    source: "1",
+    sourceHandle: null,
+    target: "2",
+    targetHandle: null,
+    id: "reactflow__edge-1-2",
+  },
+];
 
 const flowReducer = createSlice({
   name: "flow",
@@ -46,6 +69,11 @@ const flowReducer = createSlice({
         (ed) => ed.target !== action.payload && ed.source !== action.payload
       );
     },
+    onSaveFlow: (state, action) => {
+      state.initNodes = state.initNodes.concat(action.payload.nodes);
+      state.initEdges = addEdge(action.payload.edges, state.initEdges);
+    },
+    onRestoreFlow: () => {},
   },
 });
 
@@ -60,6 +88,7 @@ const {
   onAddNode,
   onRemoveEdge,
   onRemoveNode,
+  onSaveFlow,
 } = flowReducer.actions;
 
 export const preNodesChange = (action) => async (dispatch) => {
@@ -109,3 +138,11 @@ export const preRemoveNode = (action) => async (dispatch) => {
     return console.error(e.message);
   }
 };
+
+export const preOnSaveFlow = (action) => async (dispatch) => {
+  try {
+    dispatch(onSaveFlow(action));
+  } catch (e) {
+    return console.error(e.message);
+  }
+}

@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import ReactFlow, {
   Controls,
   MarkerType,
+  useReactFlow,
 } from "reactflow";
 
 import CustomConnectionLine from "./CustomConnectionLine";
@@ -12,7 +13,7 @@ import "reactflow/dist/base.css";
 import CustomNode from "./CustomNode";
 import CustomEdge from "./CustomEdge";
 import { useDispatch, useSelector } from "react-redux";
-import { preAddNode, preConnect, preEdgesChange, preNodesChange } from "../stores/slices/flow";
+import { preAddNode, preConnect, preEdgesChange, preNodesChange, preOnSaveFlow } from "../stores/slices/flow";
 
 const connectionLineStyle = {
   strokeWidth: 3,
@@ -35,12 +36,15 @@ const defaultEdgeOptions = {
   },
 };
 
+const flowKey = 'example-flow';
+
 const FlowBoard = ({ reactFlowWrapper }) => {
   const initNodes = useSelector((state) => state.flow.initNodes);
   const initEdges = useSelector((state) => state.flow.initEdges);
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const nodeTypes = useMemo(() => ({ messageService: CustomNode }), []);
+  const { setViewport } = useReactFlow();
   const dispatch = useDispatch();
 
   const nodeChanges = (data) => {
@@ -94,6 +98,32 @@ const FlowBoard = ({ reactFlowWrapper }) => {
     [reactFlowInstance]
   );
 
+  const onSave = useCallback(() => {
+    if (reactFlowInstance) {
+      const flow = reactFlowInstance.toObject();
+      // localStorage.setItem(flowKey, JSON.stringify(flow));
+    }
+  }, [reactFlowInstance]);
+
+  const onRestore = useCallback(() => {
+    const restoreFlow = async () => {
+      const flow = JSON.parse(localStorage.getItem(flowKey));
+
+      if (flow) {
+        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        let payload = {
+          nodes: flow.nodes,
+          edges: flow.edges
+        }
+
+        dispatch(preOnSaveFlow(payload))
+        setViewport({ x, y, zoom });
+      }
+    };
+
+    restoreFlow();
+  }, [setViewport]);
+
   return (
     <ReactFlow
       nodes={initNodes}
@@ -112,6 +142,10 @@ const FlowBoard = ({ reactFlowWrapper }) => {
       defaultEdgeOptions={defaultEdgeOptions}
     >
       {/* <MiniMap /> */}
+      <div className="inline-flex absolute top-1 right-1 z-10">
+        <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" onClick={onSave}>save</button>
+        <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r" onClick={onRestore}>restore</button>
+      </div>
       <Controls />
     </ReactFlow>
   );

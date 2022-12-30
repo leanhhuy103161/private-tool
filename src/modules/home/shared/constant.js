@@ -1,10 +1,7 @@
 import { ReactComponent as Messenger } from "../../../assets/service-logo/messenger.svg";
-import { ReactComponent as Gmail } from "../../../assets/service-logo/gmail.svg";
-import { ReactComponent as Twitter } from "../../../assets/service-logo/twitter.svg";
-import { ReactComponent as Linkedin } from "../../../assets/service-logo/linkedin.svg";
-import { ReactComponent as Whatsapp } from "../../../assets/service-logo/whatsapp.svg";
 import { ReactComponent as Zalo } from "../../../assets/service-logo/zalo.svg";
-
+import { ReactComponent as Viber } from "../../../assets/service-logo/viber.svg";
+import { ReactComponent as Sms } from "../../../assets/service-logo/sms.svg";
 
 export const services = {
   zalo: 'zalo',
@@ -12,14 +9,37 @@ export const services = {
   twitter: 'twitter',
   linkedin: 'linkedin',
   whatsapp: 'whatsapp',
-  gmail: 'gmail'
+  gmail: 'gmail',
+  viber: 'viber',
+  sms: 'sms',
 }
 
 export const ServiceLogoIcon = {
   [services.zalo]: Zalo,
   [services.messenger]: Messenger,
-  [services.twitter]: Twitter,
-  [services.linkedin]: Linkedin,
-  [services.whatsapp]: Whatsapp,
-  [services.gmail]: Gmail,
+  [services.sms]: Sms,
+  [services.viber]: Viber,
 }
+
+export const ServicesList = [
+  {
+    icon: Zalo,
+    name: services.zalo,
+    number: "17"
+  },
+  {
+    icon: Messenger,
+    name: services.messenger,
+    number: "19"
+  },
+  {
+    icon: Sms,
+    name: services.sms,
+    number: "22"
+  },
+  {
+    icon: Viber,
+    name: services.viber,
+    number: "11"
+  },
+]
