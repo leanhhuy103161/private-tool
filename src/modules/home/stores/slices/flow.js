@@ -36,6 +36,9 @@ const initialEdges = [
   },
 ];
 
+const flowKey = 'example-flow';
+
+
 const flowReducer = createSlice({
   name: "flow",
   initialState: {
@@ -70,10 +73,16 @@ const flowReducer = createSlice({
       );
     },
     onSaveFlow: (state, action) => {
+      localStorage.setItem(flowKey, JSON.stringify(action.payload));
+    },
+    onClearFlow: (state) => {
+      state.initNodes = [];
+      state.initEdges = [];
+    },
+    onRestoreFlow: (state, action) => {
       state.initNodes = action.payload.nodes;
       state.initEdges = action.payload.edges;
     },
-    onRestoreFlow: () => {},
   },
 });
 
@@ -89,6 +98,8 @@ const {
   onRemoveEdge,
   onRemoveNode,
   onSaveFlow,
+  onRestoreFlow,
+  onClearFlow,
 } = flowReducer.actions;
 
 export const preNodesChange = (action) => async (dispatch) => {
@@ -139,9 +150,25 @@ export const preRemoveNode = (action) => async (dispatch) => {
   }
 };
 
-export const preOnSaveFlow = (action) => async (dispatch) => {
+export const preSaveFlow = (action) => async (dispatch) => {
   try {
     dispatch(onSaveFlow(action));
+  } catch (e) {
+    return console.error(e.message);
+  }
+}
+
+export const preRestoreFlow = (action) => async (dispatch) => {
+  try {
+    dispatch(onRestoreFlow(action));
+  } catch (e) {
+    return console.error(e.message);
+  }
+}
+
+export const preClear = () => async (dispatch) => {
+  try {
+    dispatch(onClearFlow())
   } catch (e) {
     return console.error(e.message);
   }
