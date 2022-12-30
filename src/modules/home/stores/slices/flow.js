@@ -70,8 +70,8 @@ const flowReducer = createSlice({
       );
     },
     onSaveFlow: (state, action) => {
-      state.initNodes = state.initNodes.concat(action.payload.nodes);
-      state.initEdges = addEdge(action.payload.edges, state.initEdges);
+      state.initNodes = action.payload.nodes;
+      state.initEdges = action.payload.edges;
     },
     onRestoreFlow: () => {},
   },

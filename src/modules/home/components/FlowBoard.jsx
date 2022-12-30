@@ -101,11 +101,11 @@ const FlowBoard = ({ reactFlowWrapper }) => {
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      // localStorage.setItem(flowKey, JSON.stringify(flow));
+      localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
 
-  const onRestore = useCallback(() => {
+  const onRestore = () => {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
 
@@ -116,13 +116,15 @@ const FlowBoard = ({ reactFlowWrapper }) => {
           edges: flow.edges
         }
 
+        console.log(payload);
+
         dispatch(preOnSaveFlow(payload))
         setViewport({ x, y, zoom });
       }
     };
 
     restoreFlow();
-  }, [setViewport]);
+  };
 
   return (
     <ReactFlow
